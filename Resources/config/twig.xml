@@ -1,0 +1,52 @@
+<container xmlns="http://www.symfony-project.org/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.symfony-project.org/schema/dic/services http://www.symfony-project.org/schema/dic/services/services-1.0.xsd">
+
+
+  <parameters>
+		<parameter key="twig.environment.class">Twig_Environment</parameter>
+		<parameter key="twig.loader.extension">.twig</parameter>
+		<parameter key="twig.loader.class">Bundle\TwigBundle\Templating\Loader\TwigLoader</parameter>
+    <parameter key="twig.loader.compile.class">Bundle\TwigBundle\Templating\Loader\CompilableTwigLoader</parameter>
+		<parameter key="twig.loader.cache.class">Symfony\Components\Templating\Loader\CacheLoader</parameter>
+    <parameter key="templating.helper.twig.class">Bundle\TwigBundle\Helper\TwigHelper</parameter>
+	</parameters>
+
+  <services>
+	
+		<service id="twig.environment" class="%twig.environment.class%">
+		  <annotation name="templating.helper" alias="twig" />
+			<argument type="service" id="twig.environment.loader" />
+      <argument type="collection">
+        <argument key="cache">false</argument>
+      </argument>
+		</service>
+
+		<service id="twig.environment.loader" class="Twig_Loader_String"></service>
+
+		<service id="twig.loader.compile" class="%twig.loader.compile.class%">
+	    <argument type="service" id="twig.environment" />
+      <argument>%twig.loader.filesystem.path%</argument>
+      <call method="setDebugger"><argument type="service" id="templating.debugger" on-invalid="ignore" /></call>
+		</service>
+		
+		<service id="twig.loader.cache" class="%twig.loader.cache.class%">
+      <argument type="service" id="twig.loader.compile" />
+      <argument>%twig.loader.cache.path%</argument>
+      <call method="setDebugger"><argument type="service" id="templating.debugger" on-invalid="ignore" /></call>
+		</service>
+
+		<service id="twig.loader" class="%twig.loader.class%">
+	    <argument type="service" id="twig.environment" />
+      <argument>%twig.loader.filesystem.path%</argument>
+      <call method="setDebugger"><argument type="service" id="templating.debugger" on-invalid="ignore" /></call>
+		</service>
+
+		<service id="templating.helper.twig" class="%templating.helper.twig.class%">
+      <annotation name="templating.helper" alias="twig" />
+      <argument type="service" id="twig.environment" />
+    </service>
+		
+	</services>
+	
+</container>
