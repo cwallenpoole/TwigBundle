@@ -7,14 +7,12 @@ class SymfonySlotNode extends \Twig_Node implements \Twig_NodeListInterface
 
   protected $name;
   protected $body;
-  protected $parent;
 
   public function __construct($name, \Twig_NodeList $body, $lineno, $parent = null, $tag = null)
   {
     parent::__construct($lineno, $tag);
     $this->name = $name;
     $this->body = $body;
-    $this->parent = $parent;
   }
   
   public function compile($compiler)
@@ -22,15 +20,12 @@ class SymfonySlotNode extends \Twig_Node implements \Twig_NodeListInterface
   
     $compiler
       ->addDebugInfo($this)
-      ->write(sprintf("public function block_%s(\$context)\n", $this->name), "{\n")
+      ->write(sprintf("\$context['view']->slots->start('%s');", $this->name))
       ->indent()
-    ;
-
-    $compiler
       ->subcompile($this->body)
       ->outdent()
-      ->write("}\n\n")
-    ;
+      ->write("\$context['view']->slots->stop();")
+      ->raw("\n\n");
   
   }
   

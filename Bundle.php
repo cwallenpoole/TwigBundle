@@ -11,11 +11,12 @@ class Bundle extends BaseBundle
 {
   public function buildContainer(ContainerInterface $container)
   {
+  
     Loader::registerExtension(new TwigExtension());
 
     $container->setParameter('twig.loader.cache.path', $container->getParameter('kernel.cache_dir').'/twig');
-    
-    if($debug = $container->getParameter('kernel.debug'))
+  
+    if($debug = $container->hasParameter('kernel.debug'))
     {
       $container->setParameter('twig.environment.debug', true);
     }

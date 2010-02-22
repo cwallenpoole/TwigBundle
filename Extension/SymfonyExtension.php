@@ -11,12 +11,31 @@ class SymfonyExtension extends \Twig_Extension_Core
    * @return array An array of Twig_TokenParser instances
    */
   public function getTokenParsers()
-  {  
-    $parsers = parent::getTokenParsers();
+  {
+  
+    $removed_parsers = array(
+      'Twig_TokenParser_Extends'
+    );
     
-    //$parsers[] = new TokenParser\SymfonySlotTokenParser();
+    $new_parsers = array(
+      new TokenParser\SlotTokenParser(),
+      new TokenParser\SetSlotTokenParser(),
+      new TokenParser\ExtendsTokenParser(),
+    );
     
-    return $parsers;
+  
+    $parsers = parent::getTokenParsers();   
+
+    //filter out some unused parsers
+    foreach($parsers as $key => $parser)
+    {
+      if(in_array(get_class($parser), $removed_parsers))
+      {
+        unset($parsers[$key]);
+      }
+    };
+
+    return array_merge($parsers, $new_parsers);
   }
 
 }

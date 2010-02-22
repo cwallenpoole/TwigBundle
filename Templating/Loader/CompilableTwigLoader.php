@@ -38,7 +38,6 @@ class CompilableTwigLoader extends BaseLoader implements CompilableLoader
   {
     $stream = $this->twig->tokenize($template, md5($template));
     $nodes = $this->twig->parse($stream);
-    
     $php = $this->twig->compile($nodes);
     
     //search for the class name we just generated
@@ -52,12 +51,15 @@ class CompilableTwigLoader extends BaseLoader implements CompilableLoader
     $class = trim($matches['class']);
     
     $php .= <<<EOF
+    
 \$parameters['view'] = \$view; \n
 \$template = new $class(\$view->get('twig')->getTwigEnvironment()); \n
 \$template->display(\$parameters); \n
+
 EOF;
 
     return $php;
   }
+  
 
 }
