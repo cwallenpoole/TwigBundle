@@ -15,17 +15,21 @@ class Bundle extends BaseBundle
 
     $container->setParameter('twig.loader.cache.path', $container->getParameter('kernel.cache_dir').'/twig');
     
-  }
-  
-  public function boot(ContainerInterface $container)
-  {
-    $dirs = array();
-    
-    foreach($container->getParameter('templating.loader.filesystem.path') as $dir)
+    if($debug = $container->getParameter('kernel.debug'))
     {
-      $dirs[] = str_replace('.php', $container->getParameter('twig.loader.extension'), $dir);
+      $container->setParameter('twig.environment.debug', true);
     }
     
-    $container->setParameter('twig.loader.filesystem.path', $dirs); 
+    $dirs = array();
+  
+    foreach($container->getParameter('templating.loader.filesystem.path') as $dir)
+    {
+      $dirs[] = str_replace('.php', '.twig', $dir);
+    }
+    
+    $container->setParameter('twig.loader.filesystem.path', $dirs);
+    
   }
+  
+
 }

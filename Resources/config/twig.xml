@@ -9,6 +9,7 @@
 		<parameter key="twig.loader.class">Bundle\TwigBundle\Templating\Loader\TwigLoader</parameter>
     <parameter key="twig.loader.compile.class">Bundle\TwigBundle\Templating\Loader\CompilableTwigLoader</parameter>
 		<parameter key="twig.loader.cache.class">Symfony\Components\Templating\Loader\CacheLoader</parameter>
+		<parameter key="twig.extension.symfony.class">Bundle\TwigBundle\Extension\SymfonyExtension</parameter>
     <parameter key="templating.helper.twig.class">Bundle\TwigBundle\Helper\TwigHelper</parameter>
 	</parameters>
 
@@ -19,10 +20,12 @@
 			<argument type="service" id="twig.environment.loader" />
       <argument type="collection">
         <argument key="cache">false</argument>
+        <argument key="debug">%twig.environment.debug%</argument>
       </argument>
+      <call method="addExtension"><argument type="service" id="twig.extension.symfony" /></call>
 		</service>
 
-		<service id="twig.environment.loader" class="Twig_Loader_String"></service>
+		<service id="twig.extension.symfony" class="%twig.extension.symfony.class%"></service>
 
 		<service id="twig.loader.compile" class="%twig.loader.compile.class%">
 	    <argument type="service" id="twig.environment" />
@@ -46,6 +49,8 @@
       <annotation name="templating.helper" alias="twig" />
       <argument type="service" id="twig.environment" />
     </service>
+    
+		<service id="twig.environment.loader" class="Twig_Loader_String"></service>
 		
 	</services>
 	

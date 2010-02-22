@@ -37,7 +37,7 @@ class TwigExtension extends LoaderExtension
     {
       $configuration->setParameter('twig.loader.extension', $config['extension']);
     }
-    
+        
     return $configuration;
   }
   

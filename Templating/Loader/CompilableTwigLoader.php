@@ -52,8 +52,9 @@ class CompilableTwigLoader extends BaseLoader implements CompilableLoader
     $class = trim($matches['class']);
     
     $php .= <<<EOF
-\$template = new $class(\$view->get('twig')->getTwigEnvironment());
-\$template->display(\$parameters);
+\$parameters['view'] = \$view; \n
+\$template = new $class(\$view->get('twig')->getTwigEnvironment()); \n
+\$template->display(\$parameters); \n
 EOF;
 
     return $php;
