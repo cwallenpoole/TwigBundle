@@ -14,12 +14,12 @@ class SymfonyExtension extends \Twig_Extension_Core
   {
   
     $removed_parsers = array(
-      'Twig_TokenParser_Extends'
+      'Twig_TokenParser_Extends',
+      'Twig_TokenParser_Block',
+      'Twig_TokenParser_Display',
     );
     
     $new_parsers = array(
-      new TokenParser\SlotTokenParser(),
-      new TokenParser\SetSlotTokenParser(),
       new TokenParser\ExtendsTokenParser(),
     );
     

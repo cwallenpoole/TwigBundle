@@ -58,6 +58,24 @@ class CompilableTwigLoader extends BaseLoader implements CompilableLoader
 
 EOF;
 
+/*
+    echo '<pre><code>';
+    print_r(htmlentities($stream));
+    echo '</code></pre>';
+
+
+    echo '<pre><code>';
+    print_r(htmlentities($nodes));
+    echo '</code></pre>';
+
+
+    echo '<pre><code>';
+    print_r(htmlentities( $php ));
+    echo '</code></pre>';
+
+    exit;
+*/
+
     return $php;
   }
   

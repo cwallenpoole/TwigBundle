@@ -29,6 +29,7 @@ class Bundle extends BaseBundle
     }
     
     $container->setParameter('twig.loader.filesystem.path', $dirs);
+    $container->setParameter('templating.engine.class', 'Bundle\TwigBundle\Templating\Engine');
     
   }
   
