@@ -30,6 +30,8 @@ class TwigExtension extends LoaderExtension
   {
     $configuration = new BuilderConfiguration();
     
+    //$configuration is a build configuration
+    
     $loader = new XmlFileLoader(__DIR__.'/../Resources/config');
     $configuration->merge($loader->load($this->resources['twig']));
     
@@ -37,7 +39,7 @@ class TwigExtension extends LoaderExtension
     {
       $configuration->setParameter('twig.loader.extension', $config['extension']);
     }
-        
+
     return $configuration;
   }
   

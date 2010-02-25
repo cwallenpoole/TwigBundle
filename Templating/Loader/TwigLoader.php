@@ -3,14 +3,15 @@
 namespace Bundle\TwigBundle\Templating\Loader;
 
 use Symfony\Components\Templating\Storage\FileStorage,
-    Symfony\Components\Templating\Storage\StringStorage,
+    Bundle\TwigBundle\Templating\Storage\TwigStorage,
     Symfony\Components\Templating\Loader\CompilableLoaderInterface as CompilableLoader;
+
 
 class TwigLoader extends CompilableTwigLoader
 {
   
   /**
-   * Loads a template.
+   * Loads a template. This loader is used in the non cached environment 
    *
    * @param string $template The logical template name
    * @param array  $options  An array of options
@@ -23,7 +24,7 @@ class TwigLoader extends CompilableTwigLoader
     
     if($result instanceof FileStorage)
     {
-      $result = new StringStorage($this->compile($result->getContent()).' ?>');
+      return new TwigStorage($this->compile($result->getContent()), null, 'twig');
     }
   
     return $result;

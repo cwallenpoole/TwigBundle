@@ -9,29 +9,41 @@ use Bundle\TwigBundle\DependencyInjection\TwigExtension;
 
 class Bundle extends BaseBundle
 {
-  public function buildContainer(ContainerInterface $container)
+  public function buildContainer(ContainerInterface $builder)
   {
   
+    //$container is a builder 
     Loader::registerExtension(new TwigExtension());
 
-    $container->setParameter('twig.loader.cache.path', $container->getParameter('kernel.cache_dir').'/twig');
+    //set the cache path for the cache loader
+    $builder->setParameter('twig.loader.cache.path', $builder->getParameter('kernel.cache_dir').'/twig');
   
-    if($debug = $container->hasParameter('kernel.debug'))
+    if($debug = $builder->hasParameter('kernel.debug'))
     {
-      $container->setParameter('twig.environment.debug', true);
+      $builder->setParameter('twig.environment.debug', true);
     }
     
     $dirs = array();
   
-    foreach($container->getParameter('templating.loader.filesystem.path') as $dir)
+    //add extra dirs for loading .twig templates
+    foreach($builder->getParameter('templating.loader.filesystem.path') as $dir)
     {
       $dirs[] = str_replace('.php', '.twig', $dir);
     }
     
-    $container->setParameter('twig.loader.filesystem.path', $dirs);
-    $container->setParameter('templating.engine.class', 'Bundle\TwigBundle\Templating\Engine');
+    $builder->setParameter('twig.loader.filesystem.path', $dirs);
+    
+    //overwrite the templating engine for enabling helpers
+    $builder->setParameter('templating.engine.class', 'Bundle\TwigBundle\Templating\Engine');
+
     
   }
   
+  public function boot(ContainerInterface $container)
+  {
+  
+    //container is a container
+    
+  }
 
 }

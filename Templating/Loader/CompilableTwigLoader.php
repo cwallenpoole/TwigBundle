@@ -3,9 +3,8 @@
 namespace Bundle\TwigBundle\Templating\Loader;
 
 use Symfony\Components\Templating\Loader\FilesystemLoader as BaseLoader,
-    Symfony\Components\Templating\Storage\FileStorage,
-    Symfony\Components\Templating\Storage\StringStorage,
-    Symfony\Components\Templating\Loader\CompilableLoaderInterface as CompilableLoader;
+    Symfony\Components\Templating\Loader\CompilableLoaderInterface as CompilableLoader,
+    Bundle\TwigBundle\Templating\Storage\TwigStorage;
 
 class CompilableTwigLoader extends BaseLoader implements CompilableLoader
 {
@@ -21,6 +20,7 @@ class CompilableTwigLoader extends BaseLoader implements CompilableLoader
   public function __construct(\Twig_Environment $twig, $templatePathPatterns)
   {
    $this->twig = $twig;
+   $this->defaultOptions['renderer'] = 'twig';
    
    return parent::__construct($templatePathPatterns); 
   }
@@ -36,48 +36,32 @@ class CompilableTwigLoader extends BaseLoader implements CompilableLoader
    */
   public function compile($template)
   {
+  
     $stream = $this->twig->tokenize($template, md5($template));
     $nodes = $this->twig->parse($stream);
     $php = $this->twig->compile($nodes);
-    
-    //search for the class name we just generated
-    preg_match('/class[ ]*(?<class>.*)[ ]*extends/i', $php, $matches);
-    
-    if(empty($matches['class']))
-    {
-      throw new Exception('Compile Error: Generated Twig Template class not found');
-    }
-    
-    $class = trim($matches['class']);
-    
-    $php .= <<<EOF
-    
-\$parameters['view'] = \$view; \n
-\$template = new $class(\$view->get('twig')->getTwigEnvironment()); \n
-\$template->display(\$parameters); \n
-
-EOF;
-
-/*
-    echo '<pre><code>';
-    print_r(htmlentities($stream));
-    echo '</code></pre>';
-
-
-    echo '<pre><code>';
-    print_r(htmlentities($nodes));
-    echo '</code></pre>';
-
-
-    echo '<pre><code>';
-    print_r(htmlentities( $php ));
-    echo '</code></pre>';
-
-    exit;
-*/
 
     return $php;
+
   }
   
+  /**
+   * Use the Filesystem loader to load te file, then store in
+   * into a TwigStorage.
+   * 
+   * @param mixed $template
+   * @param array array $options. (default: array())
+   */
+  public function load($template, array $options = array())
+  {
+    $storage = parent::load($template, $options);
+
+    if(!empty($storage))
+    {
+      return new TwigStorage($storage->getContent(), (string) $storage, 'twig');
+    }
+    
+    return $storage;
+  }
 
 }

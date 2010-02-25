@@ -26,7 +26,7 @@ class SymfonyExtension extends \Twig_Extension_Core
   
     $parsers = parent::getTokenParsers();   
 
-    //filter out some unused parsers
+    //filter out unused parsers
     foreach($parsers as $key => $parser)
     {
       if(in_array(get_class($parser), $removed_parsers))

@@ -7,6 +7,10 @@ use Bundle\TwigBundle\Extension\Node\ExtendsNode;
 class ExtendsTokenParser extends \Twig_TokenParser
 {
 
+  /**
+   * Parse th token for the extend tag
+   * crate a Extends Node
+   */
   public function parse(\Twig_Token $token)
   {
   
@@ -18,6 +22,11 @@ class ExtendsTokenParser extends \Twig_TokenParser
     return new ExtendsNode($token->getLine(), $parent);
   }
   
+  /**
+   * getTag function.
+   * 
+   * @return string extends
+   */
   public function getTag()
   {
     return 'extends';
