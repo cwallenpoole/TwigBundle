@@ -21,6 +21,7 @@ class SymfonyExtension extends \Twig_Extension_Core
     
     $new_parsers = array(
       new TokenParser\ExtendsTokenParser(),
+      new TokenParser\IncludeTokenParser(),
     );
     
   

@@ -17,14 +17,22 @@ use Bundle\TwigBundle\Templating\Renderer\TwigRenderer;
 class Engine extends BaseEngine implements \ArrayAccess
 {
 
-  protected $twig;
-
+  /**
+   * Register the twig renderer as soon  the engine is created
+   * 
+   * @access public
+   * @param ContainerInterface $container
+   * @param LoaderInterface $loader
+   * @param array $renderers. (default: array())
+   * @param mixed $escaper
+   */
   public function __construct(ContainerInterface $container, LoaderInterface $loader, array $renderers = array(), $escaper)
   {
     $renderers['twig'] = new TwigRenderer();
   
     return parent::__construct($container, $loader, $renderers, $escaper);
   }
+  
 
   /**
    * Check wether an helper is set

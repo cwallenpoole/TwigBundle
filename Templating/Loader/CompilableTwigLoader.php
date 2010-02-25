@@ -36,13 +36,11 @@ class CompilableTwigLoader extends BaseLoader implements CompilableLoader
    */
   public function compile($template)
   {
-  
     $stream = $this->twig->tokenize($template, md5($template));
     $nodes = $this->twig->parse($stream);
     $php = $this->twig->compile($nodes);
 
     return $php;
-
   }
   
   /**

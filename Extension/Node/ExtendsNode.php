@@ -24,7 +24,6 @@ class ExtendsNode extends \Twig_Node
       ->addDebugInfo($this)
       ->write(sprintf("\$context['view']->extend('%s')", $this->parent))
       ->raw(";\n");
-  
   }
 
 }
