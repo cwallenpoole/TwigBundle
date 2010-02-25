@@ -15,6 +15,7 @@ class SymfonyExtension extends \Twig_Extension_Core
   
     $removed_parsers = array(
       'Twig_TokenParser_Extends',
+      'Twig_TokenParser_Include',
       'Twig_TokenParser_Block',
       'Twig_TokenParser_Display',
     );
@@ -23,7 +24,6 @@ class SymfonyExtension extends \Twig_Extension_Core
       new TokenParser\ExtendsTokenParser(),
       new TokenParser\IncludeTokenParser(),
     );
-    
   
     $parsers = parent::getTokenParsers();   
 
