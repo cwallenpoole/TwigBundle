@@ -31,39 +31,39 @@ In equivalent to the following php:
 
 Helpers are available through the special view object. Take a look at the following example
   
-  <html>
-    <head>
-      <title>{{ view.slots.get('title', 'Default Title') }}</title>
-    <?head>
-    <body>
-      
-      {{ view.slots.set('title', 'Hello World') }}
-      
-      {{ view.slots.start('title') }}
-      
-         Hello large world
-      
-      {{ view.slots.stop(); }}
-    </body>
-  </html
+    <html>
+      <head>
+        <title>{{ view.slots.get('title', 'Default Title') }}</title>
+      <?head>
+      <body>
+        
+        {{ view.slots.set('title', 'Hello World') }}
+        
+        {{ view.slots.start('title') }}
+        
+           Hello large world
+        
+        {{ view.slots.stop(); }}
+      </body>
+    </html
     
 Is the same as the following php:
 
-  <html>
-    <head>
-      <title><?php echo $view->slots->get('title', 'Default Title') ?></title>
-    </head>
-    <body>
-      <?php $view->slots->set('title', 'Hello World'); ?>
-      
-      <?php $view->slots->start('title'); ?>
-      
-         Hello large world
-         
-      <?php $view->slots->stop(); ?>
-      
-    </body>
-  </html>
+    <html>
+      <head>
+        <title><?php echo $view->slots->get('title', 'Default Title') ?></title>
+      </head>
+      <body>
+        <?php $view->slots->set('title', 'Hello World'); ?>
+        
+        <?php $view->slots->start('title'); ?>
+        
+           Hello large world
+           
+        <?php $view->slots->stop(); ?>
+        
+      </body>
+    </html>
 
 NOTE: Twig "blocks" are disabled in favor of slots (see the example above)
 
@@ -71,4 +71,4 @@ NOTE: Twig "blocks" are disabled in favor of slots (see the example above)
 
 for including a template you may use the Twig Include tag like this
 
-  {% include "HelloBundle:Hello:text" with ['name': 'Foo Bar'] %}
+    {% include "HelloBundle:Hello:text" with ['name': 'Foo Bar'] %}
