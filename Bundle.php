@@ -24,25 +24,22 @@ class Bundle extends BaseBundle
     }
     
     $dirs = array();
-  
-    //add extra dirs for loading .twig templates
-    foreach($builder->getParameter('templating.loader.filesystem.path') as $dir)
-    {
-      $dirs[] = str_replace('.php', '.twig', $dir);
-    }
-    
-    $builder->setParameter('twig.loader.filesystem.path', $dirs);
     
     //overwrite the templating engine for enabling helpers
     $builder->setParameter('templating.engine.class', 'Bundle\TwigBundle\Templating\Engine');
-
     
   }
   
   public function boot(ContainerInterface $container)
   {
   
-    //container is a container
+    //add extra dirs for loading .twig templates
+    foreach($container->getParameter('templating.loader.filesystem.path') as $dir)
+    {
+      $dirs[] = str_replace('.php', $container->getParameter('twig.loader.extension'), $dir);
+    }
+    
+    $container->setParameter('twig.loader.filesystem.path', $dirs);
     
   }
 
