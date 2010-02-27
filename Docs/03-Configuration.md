@@ -1,9 +1,9 @@
 ## Configuration
 
-There are several ways to easily customize the Twig Bundle. 
+There are several in which you may customize the Twig Bundle. 
 For more advanched changes to the logic the Dependency Injection Configuration
 should be changed. I wont discuss this here, the Symfony (component) documentation
-should be read in this case.
+may be read in this case.
 
 ### Changing the .twig extension to something else
 
