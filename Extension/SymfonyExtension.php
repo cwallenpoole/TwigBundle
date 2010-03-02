@@ -18,11 +18,13 @@ class SymfonyExtension extends \Twig_Extension_Core
       'Twig_TokenParser_Include',
       'Twig_TokenParser_Block',
       'Twig_TokenParser_Display',
+      'Twig_TokenParser_Debug',
     );
     
     $new_parsers = array(
       new TokenParser\ExtendsTokenParser(),
       new TokenParser\IncludeTokenParser(),
+      new TokenParser\DebugTokenParser(),
     );
   
     $parsers = parent::getTokenParsers();   

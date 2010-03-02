@@ -44,6 +44,15 @@ class Engine extends BaseEngine implements \ArrayAccess
   {
     return $this->has($name);
   }
+  
+    public static function __set_state($an_array)
+    {
+        $obj = new A;
+        $obj->var1 = $an_array['var1'];
+        $obj->var2 = $an_array['var2'];
+        return $obj;
+    }
+
 
   /**
    * Get an Helper from the Engine

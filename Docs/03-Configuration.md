@@ -11,8 +11,7 @@ This is simple. This can be changed right in your projects configuration:
     
     /* config.yml */
     twig.twig: 
-      extension: .html
-      
+      extension: .php
       
 ### Changin the template load order
 
