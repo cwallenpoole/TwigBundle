@@ -2,16 +2,16 @@
 
 Download the git repository in the /src folder of your symfony root directory
 
-    cd /src/Bundle@
-    git clone git://github.com/advanderveer/TwigBundle.git@
+    cd /src/Bundle
+    git clone git://github.com/advanderveer/TwigBundle.git
 
 For the TwigBundle to work we will also need twig installed and the PEAR prefix loaded. 
 You may download the Twig source in any directory you like but for this tutorial we will 
 go by convention and place it into a twig (lowercase) folder of the /src/vendor directory 
 of our Symfony Project.
 
-    cd /src/vendor@
-    git clone git://github.com/fabpot/Twig.git twig@
+    cd /src/vendor
+    git clone git://github.com/fabpot/Twig.git twig
 
 New now need to configure the autloading of our Symofony application to complete the installation. 
 Thereopen up the applications kernel file in your application folder and add the necessary TwigBundle 

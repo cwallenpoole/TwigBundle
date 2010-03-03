@@ -33,6 +33,11 @@ class Engine extends BaseEngine implements \ArrayAccess
     return parent::__construct($container, $loader, $renderers, $escaper);
   }
   
+  
+  public function getStack()
+  {
+    return $this->stack;
+  }
 
   /**
    * Check wether an helper is set
