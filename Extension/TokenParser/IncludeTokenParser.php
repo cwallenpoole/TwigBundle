@@ -15,10 +15,7 @@ class IncludeTokenParser extends \Twig_TokenParser_Include
     if($node instanceof \Twig_Node)
     {
     
-      $variables = $node->getVariables();
-      $name = $node->getIncludedFile();
-    
-      return new IncludeNode($name, $token->getLine(), $variables, $this->getTag());
+      return new IncludeNode($node->getIncludedFile(), $token->getLine(),$node->isSandboxed(), $node->getVariables(), $this->getTag());
     }
     
     return $node;

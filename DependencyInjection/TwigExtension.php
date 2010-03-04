@@ -4,7 +4,9 @@ namespace Bundle\TwigBundle\DependencyInjection;
 
 use Symfony\Components\DependencyInjection\Loader\LoaderExtension,
     Symfony\Components\DependencyInjection\Loader\XmlFileLoader,
-    Symfony\Components\DependencyInjection\BuilderConfiguration;
+    Symfony\Components\DependencyInjection\BuilderConfiguration,
+    Symfony\Components\DependencyInjection\Reference,
+    Symfony\Components\DependencyInjection\Definition;
 
 /**
  * TwigExtension is an extension for the Twig php templating language
@@ -40,6 +42,39 @@ class TwigExtension extends LoaderExtension
       $configuration->setParameter('twig.loader.extension', $config['extension']);
     }
 
+    return $configuration;
+  }
+  
+  public function sandboxLoad($config)
+  {
+  
+    $configuration = new BuilderConfiguration();
+    
+    $loader = new XmlFileLoader(__DIR__.'/../Resources/config');
+    $configuration->merge($loader->load($this->resources['twig']));
+
+    $tags       = empty($config['tags']) ? array() : $config['tags'];
+    $filters    = empty($config['filters']) ? array() : $config['filters'];
+    $methods    = empty($config['methods']) ? array() : $config['methods'];
+    $properties = empty($config['properties']) ? array() : $config['properties'];
+    $global     = empty($config['global']) ? false : $config['global'];
+
+    if(!$configuration->hasDefinition('twig.sandbox.policy'))
+    {
+      $policy = new Definition('\Twig_Sandbox_SecurityPolicy', array($tags, $filters, $methods, $properties));
+      $configuration->setDefinition('twig.sandbox.policy', $policy);
+    }
+    
+    
+    if(!$configuration->hasDefinition('twig.sanddbox'))
+    {
+      $sandbox = new Definition('\Twig_Extension_Sandbox', array(new Reference('twig.sandbox.policy'), $global));
+      $configuration->setDefinition('twig.sandbox', $sandbox);
+    }
+
+    $twig = $configuration->getDefinition('twig.environment');    
+    $twig->addMethodCall('addExtension', array(new Reference('twig.sandbox')));
+    
     return $configuration;
   }
   
