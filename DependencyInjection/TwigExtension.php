@@ -17,9 +17,16 @@ use Symfony\Components\DependencyInjection\Loader\LoaderExtension,
  */
 class TwigExtension extends LoaderExtension
 {
+  protected $templateDirs;
   protected $resources = array(
     'twig' => 'twig.xml',
   );
+  
+  
+  public function __construct(array $templateDirs)
+  {
+    $this->templateDirs = $templateDirs;
+  }
   
   /**
    * Load the twig configuration, we merge the 
@@ -41,6 +48,14 @@ class TwigExtension extends LoaderExtension
     {
       $configuration->setParameter('twig.loader.extension', $config['extension']);
     }
+    
+    //add extra dirs for loading .twig templates
+    foreach($this->templateDirs as $dir)
+    {
+      $dirs[] = str_replace('.php', $configuration->getParameter('twig.loader.extension'), $dir);
+    }
+    
+    $configuration->setParameter('twig.loader.filesystem.path', $dirs);
 
     return $configuration;
   }
