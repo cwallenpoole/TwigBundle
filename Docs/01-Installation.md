@@ -23,14 +23,14 @@ line to the RegisterBundles function:
     
         //Core bundles and your application bundles are lined up here
     
-        new Bundle\TwigBundle\Bundle(),
+        new \Bundle\TwigBundle\Bundle(),
       );
     }
 
 The Twig "namespace" should also be registered in the autoloader. 
 For this step open up the autoload.php in your /src folder. 
-Because twig is a php version < 5.3 we add the Twig line to 
-the RefisterPrefix function call like this:
+Because tiwg uses the PEAR nameing convention we add the Twig line to 
+the RegisterPrefix function call like this:
 
     $loader->registerPrefixes(array(
       //Default prefixes like zend and swift are here
